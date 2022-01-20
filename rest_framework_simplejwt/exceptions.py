@@ -26,7 +26,7 @@ class DetailDictMixin:
         if code is not None:
             detail_dict["code"] = code
 
-        super().__init__(detail_dict)
+        super().__init__(**detail_dict)
 
 
 class AuthenticationFailed(DetailDictMixin, exceptions.AuthenticationFailed):

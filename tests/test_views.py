@@ -130,13 +130,13 @@ class TestTokenRefreshView(APIViewTestCase):
 
         res = self.view_post(data={"refresh": str(token)})
         self.assertEqual(res.status_code, 401)
-        self.assertEqual(res.data["code"], "token_not_valid")
+        self.assertEqual(res.data["detail"].code, "token_not_valid")
 
         token.set_exp(lifetime=-timedelta(seconds=1))
 
         res = self.view_post(data={"refresh": str(token)})
         self.assertEqual(res.status_code, 401)
-        self.assertEqual(res.data["code"], "token_not_valid")
+        self.assertEqual(res.data["detail"].code, "token_not_valid")
 
     def test_it_should_return_access_token_if_everything_ok(self):
         refresh = RefreshToken()
@@ -270,13 +270,13 @@ class TestTokenRefreshSlidingView(APIViewTestCase):
 
         res = self.view_post(data={"token": str(token)})
         self.assertEqual(res.status_code, 401)
-        self.assertEqual(res.data["code"], "token_not_valid")
+        self.assertEqual(res.data["detail"].code, "token_not_valid")
 
         token.set_exp(lifetime=-timedelta(seconds=1))
 
         res = self.view_post(data={"token": str(token)})
         self.assertEqual(res.status_code, 401)
-        self.assertEqual(res.data["code"], "token_not_valid")
+        self.assertEqual(res.data["detail"].code, "token_not_valid")
 
     def test_it_should_return_401_if_token_has_no_refresh_exp_claim(self):
         token = SlidingToken()
@@ -284,7 +284,7 @@ class TestTokenRefreshSlidingView(APIViewTestCase):
 
         res = self.view_post(data={"token": str(token)})
         self.assertEqual(res.status_code, 401)
-        self.assertEqual(res.data["code"], "token_not_valid")
+        self.assertEqual(res.data["detail"].code, "token_not_valid")
 
     def test_it_should_return_401_if_token_has_refresh_period_expired(self):
         token = SlidingToken()
@@ -294,7 +294,7 @@ class TestTokenRefreshSlidingView(APIViewTestCase):
 
         res = self.view_post(data={"token": str(token)})
         self.assertEqual(res.status_code, 401)
-        self.assertEqual(res.data["code"], "token_not_valid")
+        self.assertEqual(res.data["detail"].code, "token_not_valid")
 
     def test_it_should_update_token_exp_claim_if_everything_ok(self):
         now = aware_utcnow()
@@ -340,13 +340,13 @@ class TestTokenVerifyView(APIViewTestCase):
 
         res = self.view_post(data={"token": str(token)})
         self.assertEqual(res.status_code, 401)
-        self.assertEqual(res.data["code"], "token_not_valid")
+        self.assertEqual(res.data["detail"].code, "token_not_valid")
 
         token.set_exp(lifetime=-timedelta(seconds=1))
 
         res = self.view_post(data={"token": str(token)})
         self.assertEqual(res.status_code, 401)
-        self.assertEqual(res.data["code"], "token_not_valid")
+        self.assertEqual(res.data["detail"].code, "token_not_valid")
 
     def test_it_should_return_200_if_everything_okay(self):
         token = RefreshToken()
@@ -387,13 +387,13 @@ class TestTokenBlacklistView(APIViewTestCase):
 
         res = self.view_post(data={"refresh": str(token)})
         self.assertEqual(res.status_code, 401)
-        self.assertEqual(res.data["code"], "token_not_valid")
+        self.assertEqual(res.data["detail"].code, "token_not_valid")
 
         token.set_exp(lifetime=-timedelta(seconds=1))
 
         res = self.view_post(data={"refresh": str(token)})
         self.assertEqual(res.status_code, 401)
-        self.assertEqual(res.data["code"], "token_not_valid")
+        self.assertEqual(res.data["detail"].code, "token_not_valid")
 
     def test_it_should_return_if_everything_ok(self):
         refresh = RefreshToken()

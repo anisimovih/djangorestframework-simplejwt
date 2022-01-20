@@ -69,7 +69,7 @@ class TestTestView(APIViewTestCase):
             res = self.view_get()
 
         self.assertEqual(res.status_code, 401)
-        self.assertEqual("token_not_valid", res.data["code"])
+        self.assertEqual("token_not_valid", res.data['detail'].code)
 
     def test_user_can_get_sliding_token_and_use_it(self):
         res = self.client.post(
